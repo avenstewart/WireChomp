@@ -1,12 +1,11 @@
 [REDDIT]
-subreddit_list = ["news"]
-#["worldnews", "news", "USnews", "worldpolitics", "politics", "technology"]
-vote_threshold = 100
-exclude_hosts = []
-certfile_path = "resources/certfile.pem"
-client_id = eroNotARealClientIDif%42wi
-client_secret = ergi#%^NotARealSecret534fgg
-username = ExampleUser
-password = ExAmPlEPasSwOrD1%
+subreddit_list = ["worldnews", "news", "USnews", "worldpolitics", "politics", "technology"]
+post_score_threshold = 100
+exclude_news_domains = []
+praw_certfile_path = resources/certfile.pem
+praw_client_id = eroNotARealClientIDif%42wi
+praw_client_secret = ergi#%^NotARealSecret534fgg
+praw_reddit_username = ExampleUser
+praw_reddit_password = ExAmPlEPasSwOrD1%
 user_agent = Firefox/41.0
 request_delay = 1
