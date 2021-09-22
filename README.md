@@ -9,7 +9,7 @@ WireChomp uses python3+, and requires the following extensions:
 - [**Trafiltura** ](https://trafilatura.readthedocs.io/en/latest/): HTML content processing tool
 - [**PRAW**](https://praw.readthedocs.io/en/stable/) : Reddit API tools, not currently used but may be useful as project progresses
 ```
-pip3 install nltk tralfiltura praw
+pip3 install nltk trafiltura praw
 ```
 
 ## Usage
