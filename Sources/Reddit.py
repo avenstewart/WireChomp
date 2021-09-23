@@ -26,23 +26,27 @@ class RedditChomper:
 
     # get a list of all (up tp max_articles) article objects -
     # returned in a 24 hours window before supplied datetime
-    def get_posts_before_datetime(self, unix_timestamp, lookback_hours, score_thresh, max_results):
+
+    def get_posts_before_datetime(self, unix_timestamp, lookback_hours, comment_thresh, max_results):
+        print("Querying Reddit API for bulk posts.")
         results = []
         elapsed_time = 3600*lookback_hours
         after_timestamp = unix_timestamp - elapsed_time
-        subslist = self.reddit_config['subreddit_list']
-        sub_urls = json.loads(subslist)
+        sub_list = json.loads(self.reddit_config['subreddit_list'])
+        blacklist_hosts = json.loads(self.reddit_config['blacklist_domains'])
+        blacklist_suffix = json.loads(self.reddit_config['blacklist_suffix'])
 
-        for sub in sub_urls:
+        for sub in sub_list:
+            print("Ingesting posts from subreddit: "+sub)
             pushshift_url = (
                 "https://api.pushshift.io/reddit/search/submission/?" +
-                "subreddits=" + sub +
+                "subreddit=" + sub +
                 "&after=" + str(after_timestamp) +
                 "&before=" + str(unix_timestamp) +
-                "&score=>" + str(score_thresh) +
+                "&num_comments=>" + str(comment_thresh) +
                 "&size=" + str(max_results) +
                 "&is_video=false" +
-                "&fields=score,domain,url,title,created_utc"
+                "&fields=domain,url,title,created_utc"
             )
             bulk_articles_json = get(pushshift_url).json()
 
@@ -50,17 +54,22 @@ class RedditChomper:
             # subreddit = self.reddit.subreddit(sub)
 
             for post_obj in bulk_articles_json['data']:
-                results.append(post_obj)
-            sleep(int(self.reddit_config['request_delay']))
+                if (not any(host in post_obj['domain'] for host in blacklist_hosts)) and \
+                        (not any(post_obj['url'].endswith(ext) for ext in blacklist_suffix)):
+                    results.append(post_obj)
+
+            sleep(float(self.reddit_config['request_delay']))
+        print("Query complete.")
         return results
 
-    @staticmethod
-    def filter_by_score(posts_json, score_thresh):
-        results = []
-        for post in posts_json:
-            if post['score'] >= score_thresh:
-                results.append(post)
-        return results
+    # method currently broken due to inaaccurate API scores
+    # @staticmethod
+    # def filter_by_score(posts_json, score_thresh):
+    #     results = []
+    #     for post in posts_json:
+    #         if post['score'] >= score_thresh:
+    #             results.append(post)
+    #     return results
 
     @staticmethod
     def filter_by_keywords(posts_json, keywords=list):
@@ -73,7 +82,7 @@ class RedditChomper:
         return results
 
     @staticmethod
-    def filter_by_news_source(posts_json, exclusive=bool, hostnames=list):
+    def filter_by_hostname(posts_json, exclusive=bool, hostnames=list):
         results = []
         for post in posts_json:
             # TODO figure out why this is throwing an odd non-iterable error for List
@@ -81,5 +90,3 @@ class RedditChomper:
             if any(hostname in post['domain'] for hostname in hostnames):
                 results.append(post)
         return results
-
-
