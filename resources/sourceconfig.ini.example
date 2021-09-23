@@ -1,11 +1,13 @@
 [REDDIT]
 subreddit_list = ["worldnews", "news", "USnews", "worldpolitics", "politics", "technology"]
 post_score_threshold = 100
-exclude_news_domains = []
+whitelist_domain_file = []
+blacklist_domains = ["i.redd.it","imgur.com", "redgifs.com"]
+blacklist_suffix = [".jpg",".png",".gif",".exe",".zip"]
 praw_certfile_path = resources/certfile.pem
 praw_client_id = eroNotARealClientIDif%42wi
 praw_client_secret = ergi#%^NotARealSecret534fgg
 praw_reddit_username = ExampleUser
 praw_reddit_password = ExAmPlEPasSwOrD1%
 user_agent = Firefox/41.0
-request_delay = 1
+request_delay = 0
