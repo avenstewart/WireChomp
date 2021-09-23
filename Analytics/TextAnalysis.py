@@ -3,6 +3,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 from math import ceil
 
+
 class CloudEngine:
 
     def __init__(self):
@@ -24,6 +25,7 @@ class CloudEngine:
         raw_content = trafilatura.extract(
             raw_html, include_comments=False, include_tables=False, no_fallback=True
         )
+
 
         if not raw_content:
             raise IOError

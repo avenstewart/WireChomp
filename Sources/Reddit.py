@@ -26,6 +26,7 @@ class RedditChomper:
 
     # get a list of all (up tp max_articles) article objects -
     # returned in a 24 hours window before supplied datetime
+
     def get_posts_before_datetime(self, unix_timestamp, lookback_hours, comment_thresh, max_results):
         print("Querying Reddit API for bulk posts.")
         results = []

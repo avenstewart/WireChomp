@@ -11,3 +11,4 @@ praw_reddit_username = ExampleUser
 praw_reddit_password = ExAmPlEPasSwOrD1%
 user_agent = Firefox/41.0
 request_delay = 0
+

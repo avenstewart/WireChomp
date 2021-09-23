@@ -1,6 +1,5 @@
 import unittest
 from time import sleep
-
 from Analytics import TextAnalysis
 from Sources import Reddit
 
@@ -23,7 +22,6 @@ class RedditParsingTests(unittest.TestCase):
                 clouds_list.append(cloud)
             except IOError:
                 pass
-
+              
         master_cloud = cloud_engine.merge_all(clouds_list)
         print(len(master_cloud))
-
